@@ -1,0 +1,4 @@
+redireciona
+<?php
+
+?>
