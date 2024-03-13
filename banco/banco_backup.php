@@ -1,6 +1,6 @@
 <?php
 
-class Banco
+class BancoAnalistar
 {
     private static $dbNome = 'banco';
     private static $dbHost = 'localhost';

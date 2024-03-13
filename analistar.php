@@ -11,10 +11,10 @@ $click = $_SERVER['REQUEST_URI'];
 //$pessoa=$_SESSION["usuario"];
 $pessoa ="uso futuro";
 $sitePrincipal="http://$_SERVER[HTTP_HOST]";
-$pdo = Banco::conectar();
+$pdo = BancoAnalistar::conectar();
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $sql = "INSERT INTO usuario (ip,so,datahora,click,pessoa,dataacesso,siteprincipal) VALUES(?,?,?,?,?,?,?)";
 $q = $pdo->prepare($sql);
 $q->execute(array($ip,$sistemaoperacional,$datahora,$click,$pessoa,$dataacesso,$sitePrincipal));
-Banco::desconectar();
+BancoAnalistar::desconectar();
 ?>
