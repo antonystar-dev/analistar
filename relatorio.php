@@ -14,6 +14,7 @@
 <body>
     <div class="menu">
         <form action="relatorio.php" method="post">
+            Data de acesso:
             <select name="dataacesso">
                 <option selected>
 
@@ -34,6 +35,7 @@
                             ?>
 
             </select>
+            Site acessado:
             <select name="siteprincipal">
                 <option selected>
 
@@ -54,6 +56,27 @@
                             ?>
 
             </select>
+            Endereço IP:
+            <select name="ip">
+                <option selected>
+
+                </option>
+                <?php
+                            include_once './banco/banco.php';
+                            $pdo = BancoAnalistar::conectar();
+                            $sql = 'SELECT DISTINCT ip FROM usuario';
+
+                            foreach ($pdo->query($sql)as $row) {
+                                ?>
+                <option value="<?php echo $row['ip'] ?>">
+                    <?php echo $row['ip'] ?>
+                </option>
+                <?php
+                            }
+                            BancoAnalistar::desconectar();
+                            ?>
+
+            </select>
             <input type="submit" value="carregar">
         </form>
     </div>
@@ -64,7 +87,8 @@
                     $pdo = BancoAnalistar::conectar();
                     $databusca = $_POST['dataacesso'];
                     $sitebusca = $_POST['siteprincipal'];
-                    if ($databusca == NULL and $sitebusca == NULL) {
+                    $ipbusca = $_POST['ip'];
+                    if ($databusca == NULL and $sitebusca == NULL and $ipbusca == null) {
                         $sql = 'SELECT * FROM usuario order by id DESC limit 10';
                         foreach ($pdo->query($sql)as $row) {
                             ?>
@@ -113,7 +137,7 @@
                         </tr>
                         <tr>
                             <td class="colunaFixa">Site</td>
-                            <td colspan="7">
+                            <td colspan="7" class="colunaFixa4">
                                 <?php echo $row['siteprincipal'] ?>
                             </td>
                         </tr>
@@ -130,8 +154,10 @@
                        
                         if($databusca!=NULL){
                             $sqlBanco='SELECT * FROM usuario where dataacesso like"' . $databusca . '" order by id DESC ';
-                        }else{
+                        }elseif($sitebusca!=NULL){
                             $sqlBanco='SELECT * FROM usuario where siteprincipal like"' . $sitebusca . '" order by id DESC ';
+                        }else{
+                            $sqlBanco='SELECT * FROM usuario where ip like"' . $ipbusca . '" order by id DESC ';
                         }
                         $sql = $sqlBanco;
                         foreach ($pdo->query($sql)as $row) {
@@ -180,7 +206,7 @@
                     </tr>
                     <tr>
                         <td class="colunaFixa">Site</td>
-                        <td colspan="7">
+                        <td colspan="7" class="colunaFixa4">
                             <?php echo $row['siteprincipal'] ?>
                         </td>
                     </tr>
